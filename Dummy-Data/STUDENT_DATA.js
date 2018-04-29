@@ -46,7 +46,7 @@ var STUDENT_DATA = [
     RFID: "rfid_dummy_010",
     firstName: "Dona",
     lastName: "Thumb"
-  },
+  }
 ]
 // 10 data
 
