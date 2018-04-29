@@ -58,7 +58,7 @@ var ROUTE_DETAIL_DATA = [
     index: "3",
     from: "station005",
     to: "station003",
-  },
+  }
 ]
 
 module.exports.ROUTE_DETAIL_DATA = ROUTE_DETAIL_DATA
