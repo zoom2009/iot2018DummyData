@@ -79,8 +79,31 @@ let stationPost = (i) => {
   })
 }
 
+let getInOutCarPost = (i) => {
+  return new Promise((resolve, reject) => {
+    request.post(
+      'http://localhost:4000/GET_IN_OUT_CAR_dummy',
+      { json: {
+        RFID: GET_IN_OUT_CAR_DATA[i].RFID,
+        carID: GET_IN_OUT_CAR_DATA[i].carID,
+        in_out: GET_IN_OUT_CAR_DATA[i].in_out,
+        stationID: GET_IN_OUT_CAR_DATA[i].stationID,
+        dateTime: GET_IN_OUT_CAR_DATA[i].dateTime
+      } },
+      function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+              console.log(body)
+              resolve(body+'\n')
+          }else{
+            reject('error to post\n')
+          }
+      }
+    )
+  })
+}
+
 if(command === 'help'){
-  console.log('command is : \n\n\tdrop-db\n\tsave-all\n\tsave-car\n\tsave-student\n\tsave-station\n\tsave-route-detail\n\tsave-car-state\n\tsave-current-location\n')
+  console.log('command is : \n\n\tdrop-db\n\tsave-all\n\tsave-car\n\tsave-student\n\tsave-station\n\tsave-route-detail\n\tsave-get-inout-car\n\tsave-car-state\n\tsave-current-location\n')
 }else if(command === 'drop-db'){
   console.log('drop-db')
 }else if(command === 'save-all'){
@@ -99,6 +122,11 @@ if(command === 'help'){
   console.log('save-station')
   for(let i=0;i<STATION_DATA.length;i++){
     promises.push(stationPost(i))
+  }
+}else if(command === 'save-get-inout-car'){
+  console.log('save-get-inout-car')
+  for(let i=0;i<GET_IN_OUT_CAR_DATA.length;i++){
+    promises.push(getInOutCarPost(i))
   }
 }else if(command === 'save-route-detail'){
   console.log('save-route-detail')
