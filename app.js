@@ -12,13 +12,14 @@ const {CAR_CURRENT_LOCATION_DATA} = require('./Dummy-Data/CAR_CURRENT_LOCATION_D
 console.log('@@@ Run command help for more information @@@')
 
 let command = process.argv[2]
+let url = process.argv[3]
 
 var promises = [];
 
 let carPost = (i) => {
   return new Promise((resolve, reject) => {
     request.post(
-      'http://localhost:4000/CAR',
+      ''+url+'/CAR',
       { json: {
         carID: CAR_DATA[i].carID,
         startStation: CAR_DATA[i].startStation,
@@ -39,7 +40,7 @@ let carPost = (i) => {
 let studentPost = (i) => {
   return new Promise((resolve, reject) => {
     request.post(
-      'http://localhost:4000/STUDENT',
+      ''+url+'/STUDENT',
       { json: {
         RFID: STUDENT_DATA[i].RFID,
         firstName: STUDENT_DATA[i].firstName,
@@ -60,7 +61,7 @@ let studentPost = (i) => {
 let stationPost = (i) => {
   return new Promise((resolve, reject) => {
     request.post(
-      'http://localhost:4000/STATION',
+      ''+url+'/STATION',
       { json: {
         stationID: STATION_DATA[i].stationID,
         name: STATION_DATA[i].name,
@@ -82,7 +83,7 @@ let stationPost = (i) => {
 let getInOutCarPost = (i) => {
   return new Promise((resolve, reject) => {
     request.post(
-      'http://localhost:4000/GET_IN_OUT_CAR_dummy',
+      ''+url+'/GET_IN_OUT_CAR_dummy',
       { json: {
         RFID: GET_IN_OUT_CAR_DATA[i].RFID,
         carID: GET_IN_OUT_CAR_DATA[i].carID,
@@ -103,9 +104,7 @@ let getInOutCarPost = (i) => {
 }
 
 if(command === 'help'){
-  console.log('command is : \n\n\tdrop-db\n\tsave-all\n\tsave-car\n\tsave-student\n\tsave-station\n\tsave-route-detail\n\tsave-get-inout-car\n\tsave-car-state\n\tsave-current-location\n')
-}else if(command === 'drop-db'){
-  console.log('drop-db')
+  console.log('command is : \n\n\tsave-all <url>\n\tsave-car <url>\n\tsave-student <url>\n\tsave-station <url>\n\tsave-route-detail <url>\n\tsave-get-inout-car <url>\n\tsave-car-state <url>\n\tsave-current-location <url>\n')
 }else if(command === 'save-all'){
   console.log('save-all')
 }else if(command === 'save-car'){
