@@ -19,7 +19,7 @@ var promises = [];
 let carPost = (i) => {
   return new Promise((resolve, reject) => {
     request.post(
-      ''+url+'/CAR',
+      url,
       { json: {
         carID: CAR_DATA[i].carID,
         startStation: CAR_DATA[i].startStation,
@@ -40,7 +40,7 @@ let carPost = (i) => {
 let studentPost = (i) => {
   return new Promise((resolve, reject) => {
     request.post(
-      ''+url+'/STUDENT',
+      url,
       { json: {
         RFID: STUDENT_DATA[i].RFID,
         firstName: STUDENT_DATA[i].firstName,
@@ -61,7 +61,7 @@ let studentPost = (i) => {
 let stationPost = (i) => {
   return new Promise((resolve, reject) => {
     request.post(
-      ''+url+'/STATION',
+      url,
       { json: {
         stationID: STATION_DATA[i].stationID,
         name: STATION_DATA[i].name,
@@ -83,13 +83,79 @@ let stationPost = (i) => {
 let getInOutCarPost = (i) => {
   return new Promise((resolve, reject) => {
     request.post(
-      ''+url+'/GET_IN_OUT_CAR_dummy',
+      url,
       { json: {
         RFID: GET_IN_OUT_CAR_DATA[i].RFID,
         carID: GET_IN_OUT_CAR_DATA[i].carID,
         in_out: GET_IN_OUT_CAR_DATA[i].in_out,
         stationID: GET_IN_OUT_CAR_DATA[i].stationID,
         dateTime: GET_IN_OUT_CAR_DATA[i].dateTime
+      } },
+      function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+              console.log(body)
+              resolve(body+'\n')
+          }else{
+            reject('error to post\n')
+          }
+      }
+    )
+  })
+}
+
+let routeDetailPost = (i) => {
+  return new Promise((resolve, reject) => {
+    request.post(
+      url,
+      { json: {
+        carID: ROUTE_DETAIL_DATA[i].carID,
+        index: ROUTE_DETAIL_DATA[i].index,
+        from: ROUTE_DETAIL_DATA[i].from,
+        to: ROUTE_DETAIL_DATA[i].to
+      } },
+      function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+              console.log(body)
+              resolve(body+'\n')
+          }else{
+            reject('error to post\n')
+          }
+      }
+    )
+  })
+}
+
+let carStatePost = (i) => {
+  return new Promise((resolve, reject) => {
+    request.post(
+      url,
+      { json: {
+        carID: CAR_STATE_DATA[i].carID,
+        status: CAR_STATE_DATA[i].status,
+        seats: CAR_STATE_DATA[i].seats,
+        dateTime: CAR_STATE_DATA[i].dateTime
+      } },
+      function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+              console.log(body)
+              resolve(body+'\n')
+          }else{
+            reject('error to post\n')
+          }
+      }
+    )
+  })
+}
+
+let carCurrentLocationPost = (i) => {
+  return new Promise((resolve, reject) => {
+    request.post(
+      url,
+      { json: {
+        carID: CAR_CURRENT_LOCATION_DATA[i].carID,
+        lat: CAR_CURRENT_LOCATION_DATA[i].lat,
+        lng: CAR_CURRENT_LOCATION_DATA[i].lng,
+        dateTime: CAR_CURRENT_LOCATION_DATA[i].dateTime
       } },
       function (error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -129,8 +195,17 @@ if(command === 'help'){
   }
 }else if(command === 'save-route-detail'){
   console.log('save-route-detail')
+  for(let i=0;i<ROUTE_DETAIL_DATA.length;i++){
+    promises.push(routeDetailPost(i))
+  }
 }else if(command === 'save-car-state'){
   console.log('save-car-state')
+  for(let i=0;i<CAR_STATE_DATA.length;i++){
+    promises.push(carStatePost(i))
+  }
 }else if(command === 'save-current-location'){
   console.log('save-current-location')
+  for(let i=0;i<CAR_CURRENT_LOCATION_DATA.length;i++){
+    promises.push(carCurrentLocationPost(i))
+  }
 }

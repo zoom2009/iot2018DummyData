@@ -1,8 +1,8 @@
 var CAR_CURRENT_LOCATION_DATA = [
   {
     carID: "car001",
-    lat: "",
-    lng: "",
+    lat: "99.9999",
+    lng: "99.9999",
     dateTime: "12-04-2018 10:42:58"
   }
 ]
